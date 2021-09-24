@@ -19,3 +19,29 @@ func TestNewMachinery(t *testing.T) {
 		assert.Nil(t, machine)
 	})
 }
+
+func TestEvents(t *testing.T) {
+
+	t.Run("WhenMovingFromASimpleEventToAnother_ThenMachinery_ShouldChangeMachineState", func(t *testing.T) {
+		state1 := NewState("begin")
+		state2 := NewState("end")
+		machine := NewMachinery(state1)
+
+		play := NewEvent("play", state2)
+		machine.AddEvent(play)
+
+		err := machine.Trigger(play.Event())
+		assert.Nil(t, err)
+		assert.Equal(t, state2, machine.State())
+	})
+
+	t.Run("WhenMovingFromASimpleEventToAnother_ButEventDoenstExist_ThenMachinery_ShouldNotChangeMachineState", func(t *testing.T) {
+		state1 := NewState("begin")
+		machine := NewMachinery(state1)
+
+		err := machine.Trigger("missing event")
+		assert.NotNil(t, err)
+		assert.Equal(t, state1, machine.State())
+	})
+
+}
