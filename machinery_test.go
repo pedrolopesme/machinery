@@ -23,15 +23,18 @@ func TestNewMachinery(t *testing.T) {
 func TestEvents(t *testing.T) {
 
 	t.Run("WhenMovingFromASimpleEventToAnother_ThenMachinery_ShouldChangeMachineState", func(t *testing.T) {
-		state1 := NewState("begin")
-		state2 := NewState("end")
+		state1 := State("begin")
+		state2 := State("end")
+
+		shoot := Action("shoot")
+		play := Event("attack").AddStateFrom(state1).AddStateTo(state2).AddAction(shoot)
+
 		machine := NewMachinery(state1)
-
-		play := NewEvent("play", state2)
 		machine.AddEvent(play)
+		changed, err := machine.Do(shoot)
 
-		err := machine.Trigger(play.Event())
 		assert.Nil(t, err)
+		assert.True(t, changed)
 		assert.Equal(t, state2, machine.State())
 	})
 
