@@ -1,7 +1,7 @@
 package machinery
 
 type MachineryState interface {
-	State() string
+	String() string
 }
 
 func State(state string) *BasicState {
@@ -14,6 +14,6 @@ type BasicState struct {
 	state string
 }
 
-func (s BasicState) State() string {
+func (s BasicState) String() string {
 	return s.state
 }

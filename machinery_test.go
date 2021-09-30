@@ -26,8 +26,8 @@ func TestEvents(t *testing.T) {
 		state1 := State("begin")
 		state2 := State("end")
 
-		shoot := Action("shoot")
-		play := Event("attack").AddStateFrom(state1).AddStateTo(state2).AddAction(shoot)
+		shoot := Action("gun_shoot")
+		play := Event("attack").AddStateFrom(state1).StateTo(state2).AllowAction(shoot)
 
 		machine := NewMachinery(state1)
 		machine.AddEvent(play)
