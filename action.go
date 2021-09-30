@@ -1,11 +1,19 @@
 package machinery
 
-type MachineryAction struct {
-	name string
+type MachineryAction interface {
+	String() string
 }
 
-func Action(name string) *MachineryAction {
-	return &MachineryAction{
-		name: name,
+type BasicAction struct {
+	action string
+}
+
+func Action(action string) *BasicAction {
+	return &BasicAction{
+		action: action,
 	}
+}
+
+func (s BasicAction) String() string {
+	return s.action
 }
